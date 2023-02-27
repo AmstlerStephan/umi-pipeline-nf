@@ -365,7 +365,7 @@ def parse_clusters(args):
     if n_written == 0 or reads_found == 0:
         with open("no_clusters_found.txt", "w") as f:
             f.write("WARNING - did not find a single cluster passing the min_read threashold!")
-        with open("smolecule.fastq", "w") as f:
+        with open("smolecule.failed", "w") as f:
             pass
 
     logging.info(
