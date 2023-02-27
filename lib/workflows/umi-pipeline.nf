@@ -78,6 +78,11 @@ workflow UMI_PIPELINE {
         CLUSTER( DETECT_UMI_FASTA.out.umi_extract_fasta, raw )
         REFORMAT_FILTER_CLUSTER( CLUSTER.out.consensus_fasta, raw, CLUSTER.out.vsearch_dir, umi_parse_clusters)
 
+        // Filter for samples without clusters
+        REFORMAT_FILTER_CLUSTER.out.smolecule_clusters_fastas
+        .filter{ sample, type, fastas -> fastas.size > 0 }
+
+        // count number of smolecule files and transpose Channel to polish clusters in parallel
         REFORMAT_FILTER_CLUSTER.out.smolecule_clusters_fastas
         .map{ sample, type, fastas -> barcode_sizes.put("$sample", fastas.size)}
 
