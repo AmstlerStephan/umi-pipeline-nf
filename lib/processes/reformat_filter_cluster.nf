@@ -19,10 +19,18 @@ process REFORMAT_FILTER_CLUSTER {
     def write_report = params.write_reports ? "--tsv" : ""
 
     """
-        python ${umi_parse_clusters_python} $balance_strands \
-        --filter_strategy ${params.filter_strategy_clusters} --min_reads_per_clusters ${params.min_reads_per_cluster} --max_reads_per_clusters ${params.max_reads_per_cluster} \
-        $write_report -o . --vsearch_consensus ${consensus_fasta} --vsearch_folder ${vsearch_dir} --output_format ${params.output_format}
+        python ${umi_parse_clusters_python} \
+        $balance_strands \
+        --filter_strategy ${params.filter_strategy_clusters} \
+        --min_reads_per_clusters ${params.min_reads_per_cluster} \
+        --max_reads_per_clusters ${params.max_reads_per_cluster} \
+        $write_report \
+        -o . \
+        --vsearch_consensus ${consensus_fasta} \
+        --vsearch_folder ${vsearch_dir} \
+        --output_format ${params.output_format}
     """
+    
 }
 
 //clusters_fa folder is used as output folder but not used downstream and stays empty -> omitted here

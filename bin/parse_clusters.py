@@ -363,9 +363,8 @@ def parse_clusters(args):
             reads_written += d
 
     if n_written == 0 or reads_found == 0:
-        raise RuntimeError(
-            "ERROR - did not find a single cluster passing the min_read threashold!"
-        )
+        with open("smolecule_failed.txt", "w") as f:
+            f.write("WARNING - did not find a single cluster passing the min_read threashold!")
 
     logging.info(
         "Clusters: {}% written ({})".format(
