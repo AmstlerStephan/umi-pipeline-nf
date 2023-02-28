@@ -10,7 +10,7 @@ process SPLIT_READS {
         path python_filter_reads
     output:
         path "*.tsv"
-        tuple val ( "${sample}" ), val( "target" ), path ( "*filtered.${params.output_format}" ), emit: split_reads_fastx
+        tuple val ( "${sample}" ), val( "target" ), path ( "*filtered.${params.output_format}"), emit: split_reads_fastx
         path "*${params.output_format}"
     script:
         def include_secondary_reads = "${params.include_secondary_reads}" ? "--include_secondary_reads" : ""

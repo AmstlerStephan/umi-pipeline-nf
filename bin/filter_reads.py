@@ -228,6 +228,10 @@ def filter_reads(args):
                 continue
             n_reads_region += 1
             write_read(read, output, region, "filtered", out_format)
+            
+    if n_reads_region == 0:
+        with open("filtered.{}".format(out_format), "w") as f:
+            pass
 
     if tsv:
         stats_out_filename = os.path.join(

@@ -74,6 +74,11 @@ workflow UMI_PIPELINE {
 
         MAP_READS( merged_filtered_fastq, raw, reference )
         SPLIT_READS( MAP_READS.out.bam_consensus, COPY_BED.out.bed, raw, umi_filter_reads )
+
+        // Filter for samples without any mapped reads on target
+        SPLIT_READS.out.split_reads_fastx
+        .filter{ sample, type, fastq_file -> fastq_file.countLines() > 0 }
+
         DETECT_UMI_FASTA( SPLIT_READS.out.split_reads_fastx, raw, umi_extract )
         CLUSTER( DETECT_UMI_FASTA.out.umi_extract_fasta, raw )
         REFORMAT_FILTER_CLUSTER( CLUSTER.out.consensus_fasta, raw, CLUSTER.out.vsearch_dir, umi_parse_clusters)
