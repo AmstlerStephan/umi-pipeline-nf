@@ -91,6 +91,10 @@ workflow UMI_PIPELINE {
         .set{ smolecule_clusters_filtered }
         
 
+        REFORMAT_FILTER_CLUSTER.out.smolecule_clusters_fastas
+        .filter( ~/.*(?!failed)/ )
+        .view()
+        
 
 
         // count number of smolecule files and transpose Channel to polish clusters in parallel
