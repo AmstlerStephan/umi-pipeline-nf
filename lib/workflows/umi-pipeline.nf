@@ -94,7 +94,7 @@ workflow UMI_PIPELINE {
         smolecule_clusters_filtered
         .map{ sample, type, fastas -> barcode_sizes.put("$sample", fastas.size)}
 
-        flatten_smolecule_fastas = REFORMAT_FILTER_CLUSTER.out.smolecule_clusters_fastas
+        flatten_smolecule_fastas = smolecule_clusters_filtered
         .transpose(by: 2)
 
         POLISH_CLUSTER( flatten_smolecule_fastas, consensus )
