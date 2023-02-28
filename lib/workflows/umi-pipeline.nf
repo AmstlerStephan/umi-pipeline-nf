@@ -86,7 +86,6 @@ workflow UMI_PIPELINE {
 
         // Filter for samples without clusters
         REFORMAT_FILTER_CLUSTER.out.smolecule_clusters_fastas
-        .map{ sample, type, fastas -> print(fastas.countLines())}
         .filter{ sample, type, fastas -> fastas.countLines() > 0 }
         .set{ smolecule_clusters_filtered }
 
