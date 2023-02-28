@@ -86,7 +86,7 @@ workflow UMI_PIPELINE {
 
         // Filter for samples without clusters
         REFORMAT_FILTER_CLUSTER.out.smolecule_clusters_fastas
-        .filter{ sample, type, fastas -> fastas.first.countLines > 0 }
+        .filter{ sample, type, fastas -> fastas.first().countLines > 0 }
         .set{ smolecule_clusters_filtered }
 
         // count number of smolecule files and transpose Channel to polish clusters in parallel
