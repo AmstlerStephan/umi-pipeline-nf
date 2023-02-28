@@ -78,17 +78,19 @@ workflow UMI_PIPELINE {
         // Filter for samples without any mapped reads on target
         SPLIT_READS.out.split_reads_fastx
         .filter{ sample, type, fastq_file -> fastq_file.countLines() > 0 }
+        .set{ split_reads_filtered }
 
-        DETECT_UMI_FASTA( SPLIT_READS.out.split_reads_fastx, raw, umi_extract )
+        DETECT_UMI_FASTA( split_reads_filtered, raw, umi_extract )
         CLUSTER( DETECT_UMI_FASTA.out.umi_extract_fasta, raw )
         REFORMAT_FILTER_CLUSTER( CLUSTER.out.consensus_fasta, raw, CLUSTER.out.vsearch_dir, umi_parse_clusters)
 
         // Filter for samples without clusters
         REFORMAT_FILTER_CLUSTER.out.smolecule_clusters_fastas
         .filter{ sample, type, fastas -> fastas.countLines() > 0 }
+        .set{ smolecule_clusters_filtered }
 
         // count number of smolecule files and transpose Channel to polish clusters in parallel
-        REFORMAT_FILTER_CLUSTER.out.smolecule_clusters_fastas
+        smolecule_clusters_filtered
         .map{ sample, type, fastas -> barcode_sizes.put("$sample", fastas.size)}
 
         flatten_smolecule_fastas = REFORMAT_FILTER_CLUSTER.out.smolecule_clusters_fastas
