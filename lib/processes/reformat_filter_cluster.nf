@@ -2,7 +2,7 @@ process REFORMAT_FILTER_CLUSTER {
     publishDir "${params.output}/${sample}/stats/${type}", pattern: "*.tsv", mode: 'copy'
     publishDir "${params.output}/${sample}/clustering/${type}", pattern: "smolecule*", optional: true, mode: 'copy'
     publishDir "${params.output}/${sample}/clustering/${type}/clusters", pattern: "cluster*.${params.output_format}", mode: 'copy'
-    publishDir "${params.output}/${sample}/clustering/${type}", pattern: "no_clusters_found.txt", optional: true, mode: 'copy'
+    // publishDir "${params.output}/${sample}/clustering/${type}", pattern: "no_clusters_found.txt", optional: true, mode: 'copy'
     
   input:
     tuple val(sample), val(target), path(consensus_fasta)
