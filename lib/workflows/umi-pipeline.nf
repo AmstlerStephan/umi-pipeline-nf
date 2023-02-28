@@ -85,20 +85,12 @@ workflow UMI_PIPELINE {
         REFORMAT_FILTER_CLUSTER( CLUSTER.out.consensus_fasta, raw, CLUSTER.out.vsearch_dir, umi_parse_clusters)
 
         // Filter for samples without clusters
-        /*REFORMAT_FILTER_CLUSTER.out.smolecule_clusters_fastas
+        REFORMAT_FILTER_CLUSTER.out.smolecule_clusters_fastas
         .filter{ sample, type, fastas -> fastas.first().countLines() > 0 }
         .view()
         .set{ smolecule_clusters_filtered }
-        */ 
-
-        REFORMAT_FILTER_CLUSTER.out.smolecule_clusters_fastas
-        .filter( ~/.*(?!failed)/ )
-        .view()
         
-        REFORMAT_FILTER_CLUSTER.out.smolecule_clusters_fastas
-        .map{ sample, type, fastas -> sample, type, toList.fastas }
-        .filter{ sample, type, fastas -> fastas.size > 1 }
-        .view()
+
 
 
         // count number of smolecule files and transpose Channel to polish clusters in parallel
