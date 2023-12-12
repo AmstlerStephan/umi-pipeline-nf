@@ -332,6 +332,7 @@ def extract_umis(
                 continue
 
             n_both_umi += 1
+            
 
             if format == "fasta":
                 write_fasta(
